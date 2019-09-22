@@ -3,7 +3,7 @@ import os
 import csv
 
 #Type in File Name (e.g., Financial Analisys)
-filename = input("Please enter the file name you would like to review:")
+filename = input("Would you like to review the Financial Analysis report:")
 # Define the variables 
 total_revenue = 0
 month_count = 0
