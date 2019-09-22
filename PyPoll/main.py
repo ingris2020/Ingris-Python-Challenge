@@ -3,7 +3,7 @@ import os
 import csv
 
 # initialize the variables
-#filename = input("Wouild you like to see the Election Results:")
+filename = input("Wouild you like to see the Election Results:")
 total_votes = 0
 candidate = ""
 vote_details = {}
@@ -50,6 +50,7 @@ max_vote_index = vote_count.index(max(vote_count))
 candidate_percentage = []
 max_votes  = vote_count[0]
 max_index = 0
+
 #Calculate Percentages per candidate
 for p in range(len(vote_details)):
     vote_percentage = int(vote_count[p])/total_votes*100
@@ -62,29 +63,20 @@ winner=candidate_list[max_index]
 
 candidate_percentage=[round(p,2) for i in candidate_percentage]
 
-print(candidate_percentage)
-print(total_votes)
-print(candidate_name)
-print(winner)
-print(max_index)
-"""
-print(winner_votes)
-print(total_votes)
-print(candidate_name)
-print(max_vote)
-print(winner)
-"""
-"""#Print Election Results
+
+#Print Election Results
 dashbreak="-------------------------------------"
 print("Elections Results")
 print(dashbreak)
 print(f"Total Votes:{total_votes}")
 print(dashbreak)
-#loop to display percentages
-for i in range(len(candidate_name)):
-    print(candidate_name[i] + ":" + str(pe))
+#loop to show percentages
+print(dashbreak)
+print(f"Candidates:{candidate_name}")
+print(f"Votes:{max_index}")
+print(dashbreak)
 print(f"Winner:{winner}")
-print(dashbreak
+print(dashbreak)
 
 # Write it to a text file
 save_file = filename.strip(".csv") + "_result_txt"
@@ -96,6 +88,8 @@ with open(filepath, 'w') as text:
     text.write(dashbreak + "\n")
     text.write(f"Total Votes:{total_votes}" + "\n")
     text.write(dashbreak + "\n")
-    text.write(f"Percentage of Votes:{}" + "\n")
+    text.write(f"Candidates:{candidate_name}")
+    text.write(f"Votes:{max_index}")
+    #loop to write percentages
     text.write(dashbreak + "\n")
-    text.write(f"Winner:{winner}" + "\n")"""
+    text.write(f"Winner:{winner}" + "\n")
