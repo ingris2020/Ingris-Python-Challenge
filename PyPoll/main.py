@@ -1,6 +1,8 @@
 # this is main.py in PyPoll
 import os
 import csv
+import operator
+import numpy as np
 
 # initialize the variables
 filename = input("Wouild you like to see the Election Results:")
@@ -9,11 +11,11 @@ candidate = ""
 vote_details = {}
 winner_votes = 0
 winner = ""
-candidate_list = []
+candidate_list = {}
 voter_id = []
 vote_count=[] #empty list to count votes from vote details
 counter= 0
-candidate_total = []
+vote_percentage = 0.0
 
 # set the path
 election_data_csv = os.path.join("..", "election_data.csv")
@@ -26,54 +28,42 @@ with open("election_data.csv", newline="") as csvfile:
 
     #loop to count total votes by counting all rows
     for row in csvreader:
-        voter_id.append(row[0])
-        candidate_list.append(row[2])
-        vote_details[row[0]]=row[2] 
+        candidate=row[2]
+        if candidate not in vote_details:
+            vote_details.update( {candidate:1}) #1 means the start
+        elif candidate in vote_details:
+            d={candidate:vote_details.get(candidate)+1}
+            vote_details.update(d)
 
-#Total election votes 
-total_votes = len(vote_details)
+print(vote_details)
 
-#List of candidate names
-candidate_name= list(set(candidate_list))
+#This returns the key that correspondent the max value
+winner = max(vote_details.items(), key=operator.itemgetter(1))[0]
+print(winner)
 
-#Loop to tally votes per candidate
-for vote in range(len(candidate_name)):
-    count =0
-    for i in vote_details.values():
-        if i == candidate_name[vote]:
-            count = count + 1
-    vote_count.append(count)
 
-#Candidate with max votes    
-max_vote_index = vote_count.index(max(vote_count))
-#
-candidate_percentage = []
-max_votes  = vote_count[0]
-max_index = 0
+#vote_percentage 
+#loop to obtain percentages
+total_votes=sum(vote_details.values())
+for candidate, votes in vote_details.items():
+    vote_percentage=votes*100.0/total_votes
+    print(candidate, votes, vote_percentage)
 
-#Calculate Percentages per candidate
-for p in range(len(vote_details)):
-    vote_percentage = int(vote_count[p])/total_votes*100
-    candidate_percentage.append(vote_percentage)
-    if vote_count[p]>max_vote_index:
-        max_votes = vote_count[p]
-        print(max_votes)
-        max_index = count
-winner=candidate_list[max_index]
+vote_count=[candidate, votes, vote_percentage]
+print(vote_count) 
 
-candidate_percentage=[round(p,2) for i in candidate_percentage]
-
+"""
+https://thispointer.com/python-how-to-add-append-key-value-pairs-in-dictionary-using-dict-update/"""
 
 #Print Election Results
-dashbreak="-------------------------------------"
+dashbreak="--------------------------------------------"
 print("Elections Results")
 print(dashbreak)
 print(f"Total Votes:{total_votes}")
 print(dashbreak)
-#loop to show percentages
-print(dashbreak)
-print(f"Candidates:{candidate_name}")
-print(f"Votes:{max_index}")
+for candidate, votes in vote_details.items():
+    vote_percentage=votes*100.0/total_votes
+    print(candidate, votes, vote_percentage)
 print(dashbreak)
 print(f"Winner:{winner}")
 print(dashbreak)
@@ -81,15 +71,16 @@ print(dashbreak)
 # Write it to a text file
 save_file = filename.strip(".csv") + "_result_txt"
 filepath = os.path.join("..", "PyPoll_output.txt")
-
+"""
 # open the file and write rows with description
 with open(filepath, 'w') as text:
     text.write("Election Results" + "\n")
     text.write(dashbreak + "\n")
     text.write(f"Total Votes:{total_votes}" + "\n")
     text.write(dashbreak + "\n")
-    text.write(f"Candidates:{candidate_name}")
-    text.write(f"Votes:{max_index}")
-    #loop to write percentages
+    for candidate, votes in vote_details.items():
+        vote_percentage=votes*100.0/total_votes
+        text.w(candidate, votes, vote_percentage)
     text.write(dashbreak + "\n")
     text.write(f"Winner:{winner}" + "\n")
+""" 
