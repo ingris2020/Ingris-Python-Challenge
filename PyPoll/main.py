@@ -52,8 +52,6 @@ for candidate, votes in vote_details.items():
 vote_count=[candidate, votes, vote_percentage]
 print(vote_count) 
 
-"""
-https://thispointer.com/python-how-to-add-append-key-value-pairs-in-dictionary-using-dict-update/"""
 
 #Print Election Results
 dashbreak="--------------------------------------------"
@@ -71,7 +69,7 @@ print(dashbreak)
 # Write it to a text file
 save_file = filename.strip(".csv") + "_result_txt"
 filepath = os.path.join("..", "PyPoll_output.txt")
-"""
+
 # open the file and write rows with description
 with open(filepath, 'w') as text:
     text.write("Election Results" + "\n")
@@ -80,7 +78,6 @@ with open(filepath, 'w') as text:
     text.write(dashbreak + "\n")
     for candidate, votes in vote_details.items():
         vote_percentage=votes*100.0/total_votes
-        text.w(candidate, votes, vote_percentage)
+        text.write(f"{candidate} {votes} {vote_percentage}" + "\n")
     text.write(dashbreak + "\n")
     text.write(f"Winner:{winner}" + "\n")
-""" 
